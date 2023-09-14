@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  webapi:
+    image: yourapiimage
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile
+    ports:
+      - "5000:80"
+    depends_on:
+      - db
+
+  frontend:
+    image: vuefrontendimage
+    build:
+      context: ./VueFrontend
+      dockerfile: Dockerfile # This Dockerfile would reside in the VueFrontend folder.
+    ports:
+      - "8080:80"
+
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "YourPassword"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
